@@ -23,7 +23,6 @@ module.exports = class CreateCommand extends Commando.Command {
     if (!guild.lobbies) guild.lobbies = {};
     let hit = false;
 
-    console.log(Object.keys(guild.lobbies));
     Object.keys(guild.lobbies).forEach((key) => {
       if (hit) return;
 
@@ -31,38 +30,39 @@ module.exports = class CreateCommand extends Commando.Command {
         hit = true;
       }
     });
-    if (hit) return message.say("You have already created a custom game.");
+    if (hit) return message.say("You have already created a custom game open.");
 
-    // const lobby = await message.guild.channels.create(
-    //   `${message.author.username}'s custom game`,
-    //   {
-    //     type: "voice",
-    //     userLimit: 20,
-    //   }
-    // );
-    // const attacking = await message.guild.channels.create(
-    //   `${message.author.username}'s attacking`,
-    //   {
-    //     type: "voice",
-    //     userLimit: 10,
-    //   }
-    // );
-    // const defending = await message.guild.channels.create(
-    //   `${message.author.username}'s defending`,
-    //   {
-    //     type: "voice",
-    //     userLimit: 10,
-    //   }
-    // );
+    const lobby = await message.guild.channels.create(
+      `${message.author.username}'s custom game`,
+      {
+        type: "voice",
+        userLimit: 20,
+      }
+    );
+    const attacking = await message.guild.channels.create(
+      `${message.author.username}'s attacking`,
+      {
+        type: "voice",
+        userLimit: 10,
+      }
+    );
+    const defending = await message.guild.channels.create(
+      `${message.author.username}'s defending`,
+      {
+        type: "voice",
+        userLimit: 10,
+      }
+    );
 
-    // guild.lobbies[`${lobby.id}`] = {
-    //   author: message.author.id,
-    //   attacking: attacking.id,
-    //   defending: defending.id,
-    // };
-    // guild.markModified("lobbies");
-    // guild.save();
+    guild.lobbies[`${lobby.id}`] = {
+      author: message.author.id,
+      lobby: lobby.id,
+      attacking: attacking.id,
+      defending: defending.id,
+    };
+    guild.markModified("lobbies");
+    guild.save();
 
-    // message.say(`Your lobby has been created ${lobby}`);
+    message.say(`Your lobby has been created ${lobby}`);
   }
 };

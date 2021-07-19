@@ -25,6 +25,25 @@ module.exports = class StartCommand extends Commando.Command {
         "Please join a voice channel before running this command"
       );
     }
+
+    const guild = await this.client.Mongo.MongoGuild.findOne({
+      _id: message.guild.id,
+    });
+
+    if (!guild.lobbies) guild.lobbies = {};
+    let hit = false;
+    let game;
+    Object.keys(guild.lobbies).forEach((key) => {
+      if (hit) return;
+      if (guild.lobbies[key].author === message.author.id) {
+        hit = true;
+        game = guild.lobbies[key];
+      }
+    });
+
+    if (!hit)
+      return message.say("You don't have any custom game open right now.");
+
     const players = channel.members
       .map((member) => {
         return member.user;
@@ -48,6 +67,7 @@ module.exports = class StartCommand extends Commando.Command {
       defending = players;
       attacking = players.splice(middleOfPlayersArray);
     }
+    const attackingChannel = attacking.forEach((attacker, index) => {});
 
     message.say(`Attacking: ${attacking.join(", ")}
 Defending: ${defending.join(", ")}

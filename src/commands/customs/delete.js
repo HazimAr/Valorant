@@ -22,24 +22,23 @@ module.exports = class DeleteCommand extends Commando.Command {
 
     if (!guild.lobbies) guild.lobbies = {};
     let hit = false;
+    let game;
     Object.keys(guild.lobbies).forEach((key) => {
       if (hit) return;
-      if (key.author === message.author.id) {
+      if (guild.lobbies[key].author === message.author.id) {
         hit = true;
+        game = guild.lobbies[key];
       }
     });
 
     if (!hit)
-      return message.say("You don't have any custom games open right now.");
+      return message.say("You don't have any custom game open right now.");
 
-    delete guild.lobbies[`${lobby.id}`];
-
-    guild.lobbies[`${lobby.id}`] = {
-      author: message.author.id,
-      attacking: attacking.id,
-      defending: defending.id,
-    };
-
+    message.guild.channels.cache.get(game.lobby).delete(),
+      message.guild.channels.cache.get(game.attacking).delete(),
+      message.guild.channels.cache.get(game.defending).delete(),
+      delete guild.lobbies[`${game.id}`];
+    guild.markModified("lobbies");
     guild.save();
 
     message.say(`Your lobby has been deleted`);
