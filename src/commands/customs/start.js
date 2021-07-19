@@ -42,7 +42,9 @@ module.exports = class StartCommand extends Commando.Command {
     });
 
     if (!hit)
-      return message.say("You don't have any custom game open right now. To create a custom game type v!create");
+      return message.say(
+        "You don't have any custom game open right now. To create a custom game type v!create"
+      );
 
     const players = channel.members
       .map((member) => {
