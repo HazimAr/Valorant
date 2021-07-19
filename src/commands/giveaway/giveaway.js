@@ -70,9 +70,5 @@ Un-react if you want to be removed from the giveaway.`
     guild.markModified("giveaways");
     guild.save();
 
-    // giveaway.id.channel
-    // giveaway.id.message
-    // giveaway.message =
-    // giveaway.entries =
   }
 };
