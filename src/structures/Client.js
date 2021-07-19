@@ -1,5 +1,5 @@
 const { CommandoClient } = require("discord.js-commando");
-const Mongo = require("./Mongo.js");
+const Mongo = require("./mongo.js");
 const { MongoGuild, createGuild } = require("../schemas/guild.js");
 
 module.exports = class Valorant extends CommandoClient {

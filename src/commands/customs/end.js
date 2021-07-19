@@ -32,7 +32,9 @@ module.exports = class DeleteCommand extends Commando.Command {
     });
 
     if (!hit)
-      return message.say("You don't have any custom game open right now.");
+      return message.say(
+        "You don't have any custom game open right now. To create a custom game type v!create"
+      );
 
     const lobby = message.guild.channels.cache.get(game.lobby);
     const attacking = message.guild.channels.cache.get(game.attacking);

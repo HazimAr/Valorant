@@ -30,7 +30,10 @@ module.exports = class CreateCommand extends Commando.Command {
         hit = true;
       }
     });
-    if (hit) return message.say("You have already created a custom game open.");
+    if (hit)
+      return message.say(
+        "You have already created a custom game open. To close it type v!delete"
+      );
 
     const lobby = await message.guild.channels.create(
       `${message.author.username}'s custom game`,
@@ -39,20 +42,14 @@ module.exports = class CreateCommand extends Commando.Command {
         userLimit: 20,
       }
     );
-    const attacking = await message.guild.channels.create(
-      `${message.author.username}'s attacking`,
-      {
-        type: "voice",
-        userLimit: 10,
-      }
-    );
-    const defending = await message.guild.channels.create(
-      `${message.author.username}'s defending`,
-      {
-        type: "voice",
-        userLimit: 10,
-      }
-    );
+    const attacking = await message.guild.channels.create(`attacking`, {
+      type: "voice",
+      userLimit: 10,
+    });
+    const defending = await message.guild.channels.create(`defending`, {
+      type: "voice",
+      userLimit: 10,
+    });
 
     guild.lobbies[`${lobby.id}`] = {
       author: message.author.id,
