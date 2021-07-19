@@ -27,7 +27,7 @@ module.exports = class CreateCommand extends Commando.Command {
     Object.keys(guild.lobbies).forEach((key) => {
       if (hit) return;
 
-      if (key.author === message.author.id) {
+      if (guild.lobbies[key].author === message.author.id) {
         hit = true;
       }
     });
