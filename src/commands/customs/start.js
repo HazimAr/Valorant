@@ -67,11 +67,23 @@ module.exports = class StartCommand extends Commando.Command {
       defending = players;
       attacking = players.splice(middleOfPlayersArray);
     }
-    const attackingChannel = attacking.forEach((attacker, index) => {});
 
     message.say(`Attacking: ${attacking.join(", ")}
 Defending: ${defending.join(", ")}
 
 Players will be moved to their respective voice channels`);
+
+    const attackingChannel = message.guild.channels.cache.get(game.attacking);
+    attacking.forEach(async (attacker) => {
+      // console.log(attacker);
+      attacker = await message.guild.members.cache.get(attacker.id);
+      attacker.voice.setChannel(attackingChannel);
+    });
+
+    const defendingChannel = message.guild.channels.cache.get(game.defending);
+    defending.forEach(async (defender) => {
+      defender = await message.guild.members.cache.get(defender.id);
+      defender.voice.setChannel(defendingChannel);
+    });
   }
 };

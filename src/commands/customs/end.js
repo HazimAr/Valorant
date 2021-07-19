@@ -4,10 +4,10 @@ const { MessageCollector } = require("discord.js");
 module.exports = class DeleteCommand extends Commando.Command {
   constructor(client) {
     super(client, {
-      name: "delete",
+      name: "end",
       group: "custom game",
-      memberName: "delete",
-      description: "Deletes your current custom game if applicable.",
+      memberName: "end",
+      description: "Ends your current custom game if applicable.",
     });
   }
 
@@ -34,14 +34,18 @@ module.exports = class DeleteCommand extends Commando.Command {
     if (!hit)
       return message.say("You don't have any custom game open right now.");
 
-    message.guild.channels.cache.get(game.lobby).delete();
-    message.guild.channels.cache.get(game.attacking).delete();
-    message.guild.channels.cache.get(game.defending).delete();
+    const lobby = message.guild.channels.cache.get(game.lobby);
+    const attacking = message.guild.channels.cache.get(game.attacking);
+    const defending = message.guild.channels.cache.get(game.defending);
 
-    delete guild.lobbies[game.lobby];
-    guild.markModified("lobbies");
-    guild.save();
+    attacking.members.forEach((member) => {
+      member.voice.setChannel(lobby);
+    });
 
-    message.say(`Your lobby has been deleted`);
+    defending.members.forEach((member) => {
+      member.voice.setChannel(lobby);
+    });
+
+    message.say(`Your lobby has been ended`);
   }
 };
