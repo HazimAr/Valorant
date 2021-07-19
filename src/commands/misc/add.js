@@ -4,6 +4,7 @@ module.exports = class AddCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "add",
+      aliases: ["sum"],
       group: "misc",
       memberName: "add",
       description: "Adds multiple numbers together",
