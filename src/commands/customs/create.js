@@ -60,6 +60,6 @@ module.exports = class CreateCommand extends Commando.Command {
     guild.markModified("lobbies");
     guild.save();
 
-    message.say(`Your lobby has been created ${lobby}`);
+    message.say(`Your lobby has been created ${lobby} click to join`);
   }
 };
