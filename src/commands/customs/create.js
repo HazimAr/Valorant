@@ -51,7 +51,7 @@ module.exports = class CreateCommand extends Commando.Command {
       userLimit: 10,
     });
 
-    guild.lobbies[`${lobby.id}`] = {
+    guild.lobbies[lobby.id] = {
       author: message.author.id,
       lobby: lobby.id,
       attacking: attacking.id,
