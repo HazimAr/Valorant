@@ -12,17 +12,16 @@ module.exports = class StartCommand extends Commando.Command {
   }
 
   async run(message) {
-    if (!message.guild) {
-      return message.channel.send(
-        "Please send this command in a guild to continue"
+    if (!message.guild)
+      return message.say(
+        ":warning: **This command can only be used in a server!**"
       );
-    }
 
     const user = message.guild.members.cache.get(message.author.id);
     const channel = user.voice.channel;
 
     if (!channel) {
-      return message.channel.send(
+      return message.say(
         "Please join a voice channel before running this command"
       );
     }
@@ -32,7 +31,7 @@ module.exports = class StartCommand extends Commando.Command {
       })
       .sort(() => Math.random() - 0.5);
     // if (players.length <= 2) {
-    //   return message.channel.send(
+    //   return message.say(
     //     "There must be more then 2 players in the voice channel to start"
     //   );
     // }
@@ -50,9 +49,9 @@ module.exports = class StartCommand extends Commando.Command {
       attacking = players.splice(middleOfPlayersArray);
     }
 
-    message.channel.send(`Attacking: ${attacking.join(", ")}
+    message.say(`Attacking: ${attacking.join(", ")}
 Defending: ${defending.join(", ")}
 
 Players will be moved to their respective voice channels`);
   }
-}
+};

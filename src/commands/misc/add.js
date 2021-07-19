@@ -17,6 +17,6 @@ module.exports = class AddCommand extends Commando.Command {
     args.forEach((num) => {
       sum += parseInt(num);
     });
-    message.channel.send(`The sum of ${args.join(" + ")} = ${sum}`);
+    message.say(`The sum of ${args.join(" + ")} = ${sum}`);
   }
 };

@@ -11,6 +11,6 @@ module.exports = class BananaCommand extends Commando.Command {
   }
 
   async run(message) {
-    message.channel.send(":banana:");
+    message.say(":banana:");
   }
 };
