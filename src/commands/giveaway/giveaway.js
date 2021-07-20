@@ -69,6 +69,5 @@ Un-react if you want to be removed from the giveaway.`
     console.log(guild.giveaways[giveawayReact.id]);
     guild.markModified("giveaways");
     guild.save();
-
   }
 };

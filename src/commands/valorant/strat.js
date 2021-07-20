@@ -194,7 +194,7 @@ module.exports = class StratCommand extends Commando.Command {
         ],
         [
           "Gambling",
-          "Your whole team must go to one spikesite to defend. You've got a 1/3 chance to choose the right one, goodluck.",
+          "Your whole team must go to one spike site to defend. You've got a 1/3 chance to choose the right one, goodluck.",
         ],
         [
           "Doppelgänger",

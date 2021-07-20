@@ -6,7 +6,7 @@ const Valorant = require("./structures/client");
 
 const client = new Valorant({
   owner: "682715516456140838",
-  commandPrefix: "v!",
+  commandPrefix: "va!",
 });
 
 client.once("ready", () => {

@@ -5,6 +5,7 @@ module.exports = class DeleteCommand extends Commando.Command {
   constructor(client) {
     super(client, {
       name: "end",
+      aliases: ["endlobby", "endgame", "stop"],
       group: "custom game",
       memberName: "end",
       description: "Ends your current custom game if applicable.",

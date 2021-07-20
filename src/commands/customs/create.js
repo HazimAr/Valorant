@@ -35,20 +35,17 @@ module.exports = class CreateCommand extends Commando.Command {
         "You have already created a custom game open. To close it type v!delete"
       );
 
-    const lobby = await message.guild.channels.create(
-      `${message.author.username}'s custom game`,
-      {
-        type: "voice",
-        userLimit: 20,
-      }
-    );
-    const attacking = await message.guild.channels.create(`attacking`, {
+    const lobby = await message.guild.channels.create(`lobby`, {
       type: "voice",
       userLimit: 10,
     });
+    const attacking = await message.guild.channels.create(`attacking`, {
+      type: "voice",
+      userLimit: 5,
+    });
     const defending = await message.guild.channels.create(`defending`, {
       type: "voice",
-      userLimit: 10,
+      userLimit: 5,
     });
 
     guild.lobbies[lobby.id] = {
