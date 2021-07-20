@@ -8,7 +8,7 @@
     "dev": "node src/index.js"
   },
   "engines": {
-    "node": "14.15.4"
+    "node": "14.17"
   },
   "author": "",
   "license": "ISC",
