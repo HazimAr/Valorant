@@ -29,20 +29,30 @@ module.exports = class AddCommand extends Commando.Command {
 
     if (giveawayMessage[0] === "end") {
       console.log("Ending giveaway");
+
       if (!giveawayMessage[1])
         return message.say(
           ":warning: **Please enter a valid message ID to end the giveaway!**"
         );
-      const giveawayMessageObj = guild?.giveaways[giveawayMessage[1]];
+      const giveawayMessageObj = guild.giveaways[giveawayMessage[1]];
       if (!giveawayMessageObj)
-        return message.say(":warning: **Invalid message ID!**");
+        return message.say(
+          ":warning: **That giveaway message does not exist!**"
+        );
+      if (giveawayMessageObj.entries.length === 0)
+        return message.say(":warning: **Nobody signed up for the giveaway!**");
       const winner =
         giveawayMessageObj.entries[
           Math.floor(Math.random() * giveawayMessageObj.entries.length)
         ];
       delete guild.giveaways[giveawayMessageObj.id.message];
+
+      guild.markModified("giveaways");
+      guild.save();
+
       return message.say(
-        `Congratulations to ${winner} for winning ${giveawayMessageObj.message}. To claim your prize, message the person who started the giveaway. You must claim your prize in 24 hours or the giveaway will be re-rolled`
+        `Congratulations to <@${winner}> for winning **${giveawayMessageObj.message}**.
+To claim your prize, message the person who started the giveaway. You must claim your prize in 24 hours or the giveaway will be re-rolled`
       );
     }
     giveawayMessage = giveawayMessage.join(" ");
@@ -57,7 +67,7 @@ module.exports = class AddCommand extends Commando.Command {
 Un-react if you want to be removed from the giveaway.`
     );
 
-    giveawayReact.react("🎉");
+    await giveawayReact.react("🎉");
     guild.giveaways[giveawayReact.id] = {
       id: {
         channel: message.channel.id,
@@ -66,7 +76,6 @@ Un-react if you want to be removed from the giveaway.`
       message: giveawayMessage,
       entries: [],
     };
-    console.log(guild.giveaways[giveawayReact.id]);
     guild.markModified("giveaways");
     guild.save();
   }

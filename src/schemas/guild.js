@@ -16,6 +16,9 @@ const guildSchema = new Schema({
   lobbies: {
     type: Object,
   },
+  giveaways: {
+    type: Object,
+  },
 });
 
 const guildModel = model("guild", guildSchema);
