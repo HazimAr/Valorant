@@ -3,8 +3,51 @@ const { token } = process.env;
 
 const path = require("path");
 const { CommandoClient } = require("discord.js-commando");
-const Mongo = require("./structures/mongo.js");
+const { mongoUrl } = process.env,
+  { connect, connection } = require("mongoose");
 const { MongoGuild, createGuild } = require("./schemas/guild.js");
+
+class Mongo {
+  constructor(client) {
+    this.client = client;
+
+    connect(mongoUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      autoIndex: false,
+      poolSize: 5,
+      connectTimeoutMS: 10000,
+      family: 4,
+      useCreateIndex: false,
+      useFindAndModify: false,
+    });
+    //
+    connection.on("connected", () => console.log("MongoDB connected"));
+    connection.on("disconnected", () =>
+      console.log("MongoDB disconnected! - - - - - - - - - - - - -")
+    );
+    connection.on("err", () =>
+      console.log("There was an error connecting to MongoDB")
+    );
+    //
+  }
+
+  async mongoQuery(Schema, method, searchObject, updateObject) {
+    try {
+      if (method === "getAndUpdate") {
+        await Schema.updateMany(searchObject, updateObject, {
+          returnDocument: "after",
+          upsert: true,
+        });
+        return await Schema.find(searchObject);
+      }
+    } catch (err) {
+      this.console.error(err?.stack ?? err);
+      return err?.stack ?? err;
+    }
+  }
+  //
+}
 
 class Valorant extends CommandoClient {
   constructor(options) {
