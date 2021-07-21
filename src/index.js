@@ -2,7 +2,27 @@ require("dotenv").config();
 const { token } = process.env;
 
 const path = require("path");
-const Valorant = require("./structures/client");
+const { CommandoClient } = require("discord.js-commando");
+const Mongo = require("./structures/mongo.js");
+const { MongoGuild, createGuild } = require("./schemas/guild.js");
+
+class Valorant extends CommandoClient {
+  constructor(options) {
+    super(options);
+    this.Mongo = {
+      new: new Mongo(this),
+      MongoGuild,
+      getOrMakeGuild: async (id) => {
+        let guild = await MongoGuild.findOne({ _id: id });
+        if (!guild) {
+          const g = await this.guilds.fetch(id);
+          guild = new MongoGuild(await createGuild(id, g.name));
+        }
+        return guild;
+      },
+    };
+  }
+}
 
 const client = new Valorant({
   owner: "682715516456140838",
