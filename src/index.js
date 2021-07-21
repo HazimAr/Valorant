@@ -76,6 +76,7 @@ client.once("ready", async () => {
   client.user.setActivity("v!help", {
     type: "LISTENING",
   });
+  client.removeListener("message", client._events.message[0]);
   client.registry
     .registerGroups([
       ["misc", "Misc commands"],
@@ -105,6 +106,23 @@ client.once("ready", async () => {
     promises.push(Promise.all(promises));
   });
   await Promise.all(promises);
+});
+
+client.on("message", async (message) => {
+  if (message.bot) return;
+  const guild = await client.Mongo.MongoGuild.findOne({
+    _id: message.guild.id,
+  });
+  const prefix = guild.prefix;
+  if (message.content.startsWith(prefix)) {
+    message.content = message.content.replace(prefix, "v!");
+  }
+  if (message.content.startsWith(`<@!${client.user.id}>`)) {
+    message.content = message.content.replace(`<@!${client.user.id}>`, "v!");
+  }
+  client.dispatcher
+    .handleMessage(message)
+    .catch((err) => client.emit("error", err.stack ? err.stack : err));
 });
 
 client.on("guildCreate", (guild) => {
