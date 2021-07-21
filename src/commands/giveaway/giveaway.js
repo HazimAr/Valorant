@@ -55,6 +55,13 @@ module.exports = class AddCommand extends Commando.Command {
 To claim your prize, message the person who started the giveaway. You must claim your prize in 24 hours or the giveaway will be re-rolled`
       );
     }
+    if (giveawayMessage[0] === "delete") {
+      delete guild.giveaways[giveawayMessageObj.id.message];
+
+      guild.markModified("giveaways");
+      guild.save();
+      return;
+    }
     giveawayMessage = giveawayMessage.join(" ");
 
     if (!giveawayMessage)

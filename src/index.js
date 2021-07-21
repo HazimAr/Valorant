@@ -31,10 +31,11 @@ client.once("ready", async () => {
     const promises = [];
     giveaways.forEach(async (giveaway) => {
       const giveawayObj = guild.giveaways[giveaway];
+      const guild2 = await client.guilds.cache.get(guild.id);
+      if (!guild2) return;
       promises.push(
-        client.guilds.cache
-          .get(guild.id)
-          .channels.cache.get(giveawayObj.id.channel)
+        guild2.channels.cache
+          .get(giveawayObj.id.channel)
           .messages.fetch(giveawayObj.id.message)
       );
     });
@@ -87,11 +88,14 @@ client.on("messageReactionRemove", async (reaction, user) => {
     reaction.message.id
   ].entries.filter((ele) => ele !== user.id);
   // .slice(guild.giveaways[reaction.message.id].entries.indexOf(user), 1);
-  user.send(
-    `You have been Removed from **${
-      guild.giveaways[reaction.message.id].message
-    }** :sob:`
-  );
+  try {
+    user.send(
+      `You have been Removed from **${
+        guild.giveaways[reaction.message.id].message
+      }** :sob:`
+    );
+  } catch {}
+
   guild.markModified("giveaways");
   guild.save();
 });
