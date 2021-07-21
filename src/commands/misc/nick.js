@@ -19,6 +19,12 @@ module.exports = class KickCommand extends Commando.Command {
     }
 
     const member = message.guild.members.cache.get(target.id);
-    member.setNickname(args.split(`<@!${target.id}>`)[1].trim());
+    try {
+      await member.setNickname(args.split(`<@!${target.id}>`)[1].trim());
+    } catch {
+      message.say(
+        "I can not change their nickname. This is most likely because I don't have permission."
+      );
+    }
   }
 };
