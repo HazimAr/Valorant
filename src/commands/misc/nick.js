@@ -7,7 +7,6 @@ module.exports = class KickCommand extends Commando.Command {
       group: "misc",
       memberName: "nick",
       description: "Changes a persons nickname to whatever you want",
-      userPermissions: ["ADMINISTRATOR"],
     });
   }
 
@@ -20,6 +19,6 @@ module.exports = class KickCommand extends Commando.Command {
     }
 
     const member = message.guild.members.cache.get(target.id);
-    member.setNickname(args.split(`<@!${target.id}>`)[0]);
+    member.setNickname(args.split(`<@!${target.id}>`)[1].trim());
   }
 };
