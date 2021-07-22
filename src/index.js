@@ -180,7 +180,7 @@ client.on("messageReactionRemove", async (reaction, user) => {
   // .slice(guild.giveaways[reaction.message.id].entries.indexOf(user), 1);
   try {
     user.send(
-      `You have been Removed from **${
+      `You have been removed from **${
         guild.giveaways[reaction.message.id].message
       }** :sob:`
     );
