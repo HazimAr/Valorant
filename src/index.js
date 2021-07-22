@@ -110,8 +110,9 @@ client.once("ready", async () => {
 
 client.on("message", async (message) => {
   if (message.bot) return;
+  let guild;
   try {
-    const guild = await client.Mongo.MongoGuild.findOne({
+    guild = await client.Mongo.MongoGuild.findOne({
       _id: message.guild.id,
     });
   } catch (err) {
