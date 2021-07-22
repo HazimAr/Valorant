@@ -39,14 +39,3 @@ module.exports = {
   MongoGuild: guildModel,
   createGuild,
 };
-
-// {
-
-//     231523653476346: {
-//         author: "421353246346",
-//         main: "231523653476346",
-//         attackers: "24121424124213",
-//         defenders: "27634574568568",
-//     }
-
-// }
