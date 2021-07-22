@@ -9,6 +9,7 @@ module.exports = class KickCommand extends Commando.Command {
       description: "Kicks a member from the discord server",
       clientPermissions: ["KICK_MEMBERS"],
       userPermissions: ["KICK_MEMBERS"],
+      guildOnly: true,
     });
   }
 

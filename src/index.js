@@ -110,12 +110,20 @@ client.once("ready", async () => {
 
 client.on("message", async (message) => {
   if (message.bot) return;
-  const guild = await client.Mongo.MongoGuild.findOne({
-    _id: message.guild.id,
-  });
+  try {
+    const guild = await client.Mongo.MongoGuild.findOne({
+      _id: message.guild.id,
+    });
+  } catch (err) {
+    client.dispatcher
+      .handleMessage(message)
+      .catch((err) => client.emit("error", err.stack ? err.stack : err));
+    return;
+  }
   const prefix = guild.prefix;
+
   if (message.content.startsWith(prefix)) {
-    message.content = message.content.replace(prefix, "v!");
+    message.content = message.content.replace(prefix ?? "v!", "v!");
   }
   if (message.content.startsWith(`<@!${client.user.id}>`)) {
     message.content = message.content.replace(`<@!${client.user.id}>`, "v!");

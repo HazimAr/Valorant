@@ -8,6 +8,7 @@ module.exports = class CreateCommand extends Commando.Command {
       group: "custom game",
       memberName: "create",
       description: "Creates a custom game",
+      guildOnly: true,
     });
   }
 

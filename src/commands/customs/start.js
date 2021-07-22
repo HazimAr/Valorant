@@ -8,6 +8,7 @@ module.exports = class StartCommand extends Commando.Command {
       memberName: "start",
       description:
         "Will start a custom game, Randomize Teams, Randomize Map, and drag everyone to their respected voice channel",
+      guildOnly: true,
     });
   }
 

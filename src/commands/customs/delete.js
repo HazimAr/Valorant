@@ -8,6 +8,7 @@ module.exports = class DeleteCommand extends Commando.Command {
       group: "custom game",
       memberName: "delete",
       description: "Deletes your current custom game if applicable.",
+      guildOnly: true,
     });
   }
 

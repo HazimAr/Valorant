@@ -7,6 +7,7 @@ module.exports = class KickCommand extends Commando.Command {
       group: "misc",
       memberName: "nick",
       description: "Changes a persons nickname to whatever you want",
+      guildOnly: true,
     });
   }
 

@@ -10,6 +10,7 @@ module.exports = class AddCommand extends Commando.Command {
       description: "Starts a giveaway in the same channel you type it in.",
       userPermissions: ["ADMINISTRATOR"],
       argsType: "multiple",
+      guildOnly: true,
     });
   }
 
