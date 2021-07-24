@@ -29,8 +29,6 @@ module.exports = class AddCommand extends Commando.Command {
     if (!guild.giveaways) guild.giveaways = {};
 
     if (giveawayMessage[0] === "end") {
-      console.log("Ending giveaway");
-
       if (!giveawayMessage[1])
         return message.say(
           ":warning: **Please enter a valid message ID to end the giveaway!**"
@@ -42,14 +40,42 @@ module.exports = class AddCommand extends Commando.Command {
         );
       if (giveawayMessageObj.entries.length === 0)
         return message.say(":warning: **Nobody signed up for the giveaway!**");
+      console.log(giveawayMessage);
+      if (giveawayMessage[2]) {
+        let amountOfWinners = 0;
+        try {
+          amountOfWinners = parseInt(giveawayMessage[2]);
+        } catch {
+          return message.say(
+            ":warning: **Please enter a valid number of winners!**"
+          );
+        }
+        if (amountOfWinners > giveawayMessageObj.entries.length) {
+          const winners = [];
+          for (let i = 0; i < amountOfWinners; i++) {
+            const randomArrayIndex = Math.floor(
+              Math.random() * giveawayMessageObj.entries.length
+            );
+            winners.push(giveawayMessageObj.entries[randomArrayIndex]);
+            delete giveawayMessageObj.entries[randomArrayIndex];
+          }
+          return message.say(
+            `Congratulations to ${() =>
+              winners.map((winner) => `<@${winner}>`)} for winning **${
+              giveawayMessageObj.message
+            }**.
+To claim your prize, message the person who started the giveaway. You must claim your prize in 24 hours or the giveaway will be re-rolled`
+          );
+        }
+      }
       const winner =
         giveawayMessageObj.entries[
           Math.floor(Math.random() * giveawayMessageObj.entries.length)
         ];
       delete guild.giveaways[giveawayMessageObj.id.message];
 
-      guild.markModified("giveaways");
-      guild.save();
+      // guild.markModified("giveaways");
+      // guild.save();
 
       return message.say(
         `Congratulations to <@${winner}> for winning **${giveawayMessageObj.message}**.
