@@ -61,7 +61,7 @@ module.exports = class AddCommand extends Commando.Command {
           }
           return message.say(
             `Congratulations to ${() =>
-              winners.map((winner) => `<@${winner}>`)} for winning **${
+              winners.map((winner) => `<@${winner}> `)}for winning **${
               giveawayMessageObj.message
             }**.
 To claim your prize, message the person who started the giveaway. You must claim your prize in 24 hours or the giveaway will be re-rolled`
