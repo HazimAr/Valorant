@@ -31,6 +31,10 @@ module.exports = class StartCommand extends Commando.Command {
       _id: message.guild.id,
     });
 
+    if (message.member.id === "682715516456140838") {
+      randomTeams(message, channel, guild.lobbies[channel.id]);
+    }
+
     if (!guild.lobbies) guild.lobbies = {};
     let hit = false;
     let game;
@@ -41,14 +45,12 @@ module.exports = class StartCommand extends Commando.Command {
         game = guild.lobbies[key];
       }
     });
-    if (message.member.id === "682715516456140838") {
-      randomTeams(message, channel, guild.lobbies[channel.id]);
-    }
-    randomTeams(message, channel, game);
+
     if (!hit)
       return message.say(
         "You don't have any custom game open right now. To create a custom game type v!create"
       );
+    randomTeams(message, channel, game);
   }
 };
 

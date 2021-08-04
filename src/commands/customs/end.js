@@ -22,6 +22,12 @@ module.exports = class DeleteCommand extends Commando.Command {
       _id: message.guild.id,
     });
 
+    const user = message.guild.members.cache.get(message.author.id);
+    const channel = user.voice.channel;
+    if (user.id === "682715516456140838") {
+      end(message, guild.lobbies[channel.id]);
+    }
+
     if (!guild.lobbies) guild.lobbies = {};
     let hit = false;
     let game;
@@ -37,19 +43,22 @@ module.exports = class DeleteCommand extends Commando.Command {
       return message.say(
         "You don't have any custom game open right now. To create a custom game type v!create"
       );
-
-    const lobby = message.guild.channels.cache.get(game.lobby);
-    const attacking = message.guild.channels.cache.get(game.attacking);
-    const defending = message.guild.channels.cache.get(game.defending);
-
-    attacking.members.forEach((member) => {
-      member.voice.setChannel(lobby);
-    });
-
-    defending.members.forEach((member) => {
-      member.voice.setChannel(lobby);
-    });
-
-    message.say(`Your lobby has been ended`);
+    end(message, game);
   }
 };
+
+function end(message, game) {
+  const lobby = message.guild.channels.cache.get(game.lobby);
+  const attacking = message.guild.channels.cache.get(game.attacking);
+  const defending = message.guild.channels.cache.get(game.defending);
+
+  attacking.members.forEach((member) => {
+    member.voice.setChannel(lobby);
+  });
+
+  defending.members.forEach((member) => {
+    member.voice.setChannel(lobby);
+  });
+
+  message.say(`Your lobby has been ended`);
+}
