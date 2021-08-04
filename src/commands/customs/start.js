@@ -41,52 +41,57 @@ module.exports = class StartCommand extends Commando.Command {
         game = guild.lobbies[key];
       }
     });
-
+    if (message.member.id === "682715516456140838") {
+      randomTeams(message, channel, guild.lobbies[channel.id]);
+    }
+    randomTeams(message, channel, game);
     if (!hit)
       return message.say(
         "You don't have any custom game open right now. To create a custom game type v!create"
       );
+  }
+};
 
-    const players = channel.members
-      .map((member) => {
-        return member.user;
-      })
-      .sort(() => Math.random() - 0.5);
-    // if (players.length <= 2) {
-    //   return message.say(
-    //     "There must be more then 2 players in the voice channel to start"
-    //   );
-    // }
+function randomTeams(message, channel, game) {
+  const players = channel.members
+    .map((member) => {
+      return member.user;
+    })
+    .sort(() => Math.random() - 0.5);
+  // if (players.length <= 2) {
+  //   return message.say(
+  //     "There must be more then 2 players in the voice channel to start"
+  //   );
+  // }
 
-    const randomBoolean = Math.random() >= 0.5;
-    const middleOfPlayersArray = Math.floor(players.length / 2);
+  const randomBoolean = Math.random() >= 0.5;
+  const middleOfPlayersArray = Math.floor(players.length / 2);
 
-    let attacking;
-    let defending;
-    if (randomBoolean) {
-      attacking = players;
-      defending = players.splice(middleOfPlayersArray);
-    } else {
-      defending = players;
-      attacking = players.splice(middleOfPlayersArray);
-    }
+  let attacking;
+  let defending;
+  if (randomBoolean) {
+    attacking = players;
+    defending = players.splice(middleOfPlayersArray);
+  } else {
+    defending = players;
+    attacking = players.splice(middleOfPlayersArray);
+  }
 
-    message.say(`Attacking: ${attacking.join(", ")}
+  message.say(`Attacking: ${attacking.join(", ")}
 Defending: ${defending.join(", ")}
 
 Players will be moved to their respective voice channels`);
 
-    const attackingChannel = message.guild.channels.cache.get(game.attacking);
-    attacking.forEach(async (attacker) => {
-      // console.log(attacker);
-      attacker = await message.guild.members.cache.get(attacker.id);
-      attacker.voice.setChannel(attackingChannel);
-    });
+  const attackingChannel = message.guild.channels.cache.get(game.attacking);
+  attacking.forEach(async (attacker) => {
+    // console.log(attacker);
+    attacker = await message.guild.members.cache.get(attacker.id);
+    attacker.voice.setChannel(attackingChannel);
+  });
 
-    const defendingChannel = message.guild.channels.cache.get(game.defending);
-    defending.forEach(async (defender) => {
-      defender = await message.guild.members.cache.get(defender.id);
-      defender.voice.setChannel(defendingChannel);
-    });
-  }
-};
+  const defendingChannel = message.guild.channels.cache.get(game.defending);
+  defending.forEach(async (defender) => {
+    defender = await message.guild.members.cache.get(defender.id);
+    defender.voice.setChannel(defendingChannel);
+  });
+}
